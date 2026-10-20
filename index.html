@@ -1,170 +1,154 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Presell</title>
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
-  body {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: linear-gradient(180deg, #0a0a1a 0%, #1a0a2e 100%);
-    color: #fff;
-    text-align: center;
-    padding: 20px;
-    overflow-x: hidden;
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#160d20">
+  <title>Um presente para você</title>
+  <style>
+    :root{--bg:#120b18;--card:#211329;--pink:#ff4d91;--gold:#ffd782;--text:#fff7fb;--muted:#d5c3d6}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;display:grid;place-items:center;padding:22px;color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:radial-gradient(circle at 50% 15%,#432044 0,transparent 42%),linear-gradient(145deg,#100a16,#1b1025 65%,#0e0a14)}
+    .card{width:min(100%,480px);text-align:center;padding:30px 22px 26px;border:1px solid #ffffff20;border-radius:26px;background:#1b1025d9;box-shadow:0 24px 80px #0008;overflow:hidden}
+    .eyebrow{font-size:.75rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:700}
+    h1{font-size:clamp(1.8rem,7vw,2.6rem);line-height:1.05;margin:12px 0}
+    .intro{color:var(--muted);line-height:1.55;margin:0 auto 20px;max-width:330px}
+    .stage{position:relative;min-height:260px;display:grid;place-items:center;touch-action:pan-y}
+    .gift{position:relative;width:178px;height:150px;margin-top:35px;transition:transform .6s ease,opacity .4s ease}
+    .box-body{position:absolute;bottom:0;left:7px;width:164px;height:105px;border-radius:8px 8px 14px 14px;background:linear-gradient(110deg,#d92e72,#ff5798 55%,#c82068);box-shadow:inset -10px 0 #a71d58,0 16px 28px #0005}
+    .box-lid{position:absolute;z-index:2;top:19px;left:0;width:178px;height:37px;border-radius:7px;background:linear-gradient(110deg,#ff72aa,#ffb0cc 55%,#f04a91);box-shadow:inset -8px 0 #d32e77;transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+    .ribbon-v{position:absolute;z-index:3;top:20px;bottom:0;left:74px;width:30px;background:linear-gradient(90deg,#ffd782,#fff0bd,#efb74e)}
+    .ribbon-h{position:absolute;z-index:3;top:66px;left:7px;width:164px;height:18px;background:linear-gradient(#ffe6a1,#eab64f)}
+    .bow{position:absolute;z-index:4;top:0;left:63px;width:52px;height:34px}
+    .bow:before,.bow:after{content:"";position:absolute;width:25px;height:22px;border:7px solid #ffd782;border-radius:70% 70% 45% 70%;transform:rotate(25deg)}
+    .bow:after{left:23px;transform:scaleX(-1) rotate(25deg)}
+    .scissors{position:absolute;z-index:8;left:calc(50% - 118px);top:5px;width:68px;height:68px;display:grid;place-items:center;border:1px solid #ffffff35;border-radius:18px;background:#ffffff12;box-shadow:0 8px 22px #0004;cursor:grab;user-select:none;touch-action:none;font-size:42px;filter:drop-shadow(0 5px 4px #0005)}
+    .scissors:active{cursor:grabbing}
+    .hint{font-size:.86rem;color:#d9c9df;margin-top:3px;min-height:22px}
+    .cut-line{position:absolute;left:50%;top:66px;height:2px;width:0;background:var(--gold);transform:translateX(-50%);transition:width .4s;box-shadow:0 0 15px var(--gold)}
+    .open .box-lid{transform:translateY(-105px) rotate(-12deg)}
+    .open .bow{transform:translateY(-85px) rotate(15deg);transition:transform .6s}
+    .open .ribbon-v,.open .ribbon-h{opacity:0;transition:opacity .2s}
+    .open .gift{transform:translateY(12px) scale(1.04)}
+    .sparkle{position:absolute;inset:0;pointer-events:none;opacity:0}
+    .open .sparkle{opacity:1;animation:twinkle 1.2s ease-out}
+    @keyframes twinkle{0%{transform:scale(.6);opacity:0}35%{opacity:1}100%{transform:scale(1.15);opacity:0}}
+    .message{display:none;margin:10px auto 0;animation:rise .55s ease both}
+    .open .message{display:block}
+    .message h2{font-size:1.45rem;margin:4px 0 8px}
+    .message p{color:var(--muted);line-height:1.5;margin:0 auto 18px;max-width:330px}
+    .cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:50px;padding:0 22px;border-radius:14px;background:linear-gradient(110deg,#ff4d91,#ff78aa);color:white;text-decoration:none;font-weight:800;box-shadow:0 10px 28px #ff4d9133;transition:transform .2s,filter .2s}
+    .cta:hover{transform:translateY(-2px);filter:brightness(1.08)}
+    .fine{font-size:.72rem;color:#a996b2;margin:18px 0 0}
+    @keyframes rise{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+    @media (max-width: 480px) {
+  .card {
+    padding: 25px 14px;
   }
 
-  h1 {
-    font-size: 1.6rem;
-    margin-bottom: 10px;
-    line-height: 1.3;
-    max-width: 500px;
+  .stage {
+    overflow: hidden;
   }
 
-  .sub {
-    font-size: 1rem;
-    color: #b8b8d0;
-    margin-bottom: 40px;
-    max-width: 400px;
+  .scissors {
+    left: calc(50% - 34px);
+    top: 0;
+    width: 60px;
+    height: 60px;
+    font-size: 36px;
   }
-
-  /* PRESENTE CLICÁVEL - sem animação de tesoura */
-  .gift-box {
-    position: relative;
-    width: 160px;
-    height: 160px;
-    cursor: pointer;
-    margin-bottom: 30px;
-    transition: transform 0.15s ease;
-    user-select: none;
-  }
-
-  .gift-box:active {
-    transform: scale(0.92);
-  }
-
-  .gift-box svg {
-    width: 100%;
-    height: 100%;
-    display: block;
-    filter: drop-shadow(0 0 20px rgba(255, 200, 50, 0.6));
-    animation: pulse 1.5s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.06); }
-  }
-
-  .gift-box.opened svg {
-    animation: none;
-  }
-
-  .gift-box.opened {
-    transform: scale(1.1);
-  }
-
-  /* TAP HINT */
-  .tap-hint {
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: #ffd54a;
-    margin-bottom: 30px;
-    animation: blink 1.2s ease-in-out infinite;
-  }
-
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-
-  .gift-box.opened ~ .tap-hint,
-  .gift-box.opened + .tap-hint {
-    display: none;
-  }
-
-  /* CTA BUTTON */
-  .cta {
-    display: inline-block;
-    padding: 18px 50px;
-    font-size: 1.2rem;
-    font-weight: 800;
-    color: #0a0a1a;
-    background: linear-gradient(90deg, #ffd54a, #ffb300);
-    border: none;
-    border-radius: 50px;
-    text-decoration: none;
-    box-shadow: 0 8px 30px rgba(255, 180, 0, 0.5);
-    opacity: 0;
-    transform: translateY(15px);
-    pointer-events: none;
-    transition: all 0.4s ease;
-  }
-
-  .cta.show {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-  }
-
-  .cta:active {
-    transform: scale(0.96);
-  }
-</style>
+}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+  </style>
 </head>
 <body>
+  <main class="card" id="card">
+    <div class="eyebrow">Uma surpresa especial</div>
+    <h1>Tem um presente<br>esperando por você</h1>
+    <p class="intro">Arraste a tesoura até a fita para abrir a caixa e descobrir sua surpresa.</p>
 
-  <h1>🎁 Tem um presente esperando pra você!</h1>
-  <p class="sub">Toque no presentinho abaixo para revelar</p>
+    <section class="stage" id="stage" aria-label="Interação para abrir o presente">
+      <div class="scissors" id="scissors" role="button" tabindex="0" aria-label="Arraste a tesoura até a fita">✂️</div>
+      <div class="cut-line" id="cutLine"></div>
+      <div class="gift" id="gift" aria-hidden="true">
+        <div class="box-body"></div><div class="ribbon-v"></div><div class="ribbon-h"></div>
+        <div class="box-lid"></div><div class="bow"></div>
+      </div>
+      <div class="sparkle">✨　✦　✧　✦　✨</div>
+    </section>
+    <div class="hint" id="hint">Segure a tesoura e arraste até a fita dourada.</div>
 
-  <!-- PRESENTE: clique simples, sem tesoura -->
-  <div class="gift-box" id="gift" onclick="abrirPresente()">
-    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-      <!-- caixa -->
-      <rect x="15" y="45" width="70" height="45" rx="4" fill="#e63946"/>
-      <rect x="15" y="45" width="70" height="12" fill="#c1121f"/>
-      <!-- fita vertical -->
-      <rect x="45" y="45" width="10" height="45" fill="#ffd54a"/>
-      <!-- tampa -->
-      <rect x="10" y="35" width="80" height="14" rx="3" fill="#ff4d5e"/>
-      <rect x="45" y="35" width="10" height="14" fill="#ffd54a"/>
-      <!-- laço -->
-      <ellipse cx="38" cy="30" rx="12" ry="9" fill="none" stroke="#ffd54a" stroke-width="5"/>
-      <ellipse cx="62" cy="30" rx="12" ry="9" fill="none" stroke="#ffd54a" stroke-width="5"/>
-      <circle cx="50" cy="32" r="5" fill="#ffd54a"/>
-    </svg>
-  </div>
+    <section class="message" id="message">
+      <h2>Presente desbloqueado! 🎁</h2>
+      <p>Sua surpresa está pronta. Toque no botão abaixo para continuar.</p>
+      <a class="cta" id="telegramLink" href="https://t.me/SEU_BOT" target="_blank" rel="noopener noreferrer">
+        <span>✈</span> Acessar no Telegram
+      </a>
+    </section>
+    <p class="fine">Você só será direcionado ao Telegram se tocar no botão.</p>
+  </main>
 
-  <p class="tap-hint" id="hint">👆 Toque para abrir</p>
+  <script>
+    // TROQUE SEU_BOT pelo username público do seu bot, sem @.
+    const TELEGRAM_BOT = "https://t.me/SEU_BOT";
+    document.getElementById("https://serverflow.dad/l/444ac4fd?shk=xo9znaku").href = TELEGRAM_BOT;
 
-  <!-- Troque o href pelo seu link de destino -->
-  <a href="https://serverflow.dad/l/444ac4fd?shk=xo9znaku" class="cta" id="cta">QUERO MEU PRESENTE 🎁</a>
+    const card = document.getElementById("card");
+    const stage = document.getElementById("stage");
+    const scissors = document.getElementById("scissors");
+    const hint = document.getElementById("hint");
+    const cutLine = document.getElementById("cutLine");
+    let dragging = false, opened = false, pointerOffsetX = 0, pointerOffsetY = 0;
 
-<script>
-  function abrirPresente() {
-    const gift = document.getElementById('gift');
-    const hint = document.getElementById('hint');
-    const cta = document.getElementById('cta');
-
-    // evita re-clique
-    if (gift.classList.contains('opened')) return;
-
-    gift.classList.add('opened');
-    hint.style.display = 'none';
-
-    // mostra o botão depois de um pequeno delay
-    setTimeout(() => {
-      cta.classList.add('show');
-    }, 250);
-  }
-</script>
-
+    function openGift(){
+      if(opened) return;
+      opened = true;
+      card.classList.add("open");
+      scissors.style.display = "none";
+      cutLine.style.width = "190px";
+      hint.textContent = "Pronto! Agora clique no botão para abrir o Telegram.";
+    }
+    scissors.addEventListener("pointerdown", e => {
+      if(opened) return;
+      dragging = true;
+      scissors.setPointerCapture(e.pointerId);
+      const r = scissors.getBoundingClientRect();
+      pointerOffsetX = e.clientX - r.left;
+      pointerOffsetY = e.clientY - r.top;
+      e.preventDefault();
+    });
+    scissors.addEventListener("pointermove", e => {
+      if(!dragging || opened) return;
+      const sr = stage.getBoundingClientRect();
+      let x = e.clientX - sr.left - pointerOffsetX;
+      let y = e.clientY - sr.top - pointerOffsetY;
+      x = Math.max(0, Math.min(sr.width - scissors.offsetWidth, x));
+      y = Math.max(0, Math.min(sr.height - scissors.offsetHeight, y));
+      scissors.style.left = x + "px";
+      scissors.style.top = y + "px";
+      const gr = document.getElementById("gift").getBoundingClientRect();
+      const cr = scissors.getBoundingClientRect();
+      const nearRibbon = cr.right > gr.left + 45 && cr.left < gr.right - 35 &&
+                         cr.bottom > gr.top + 35 && cr.top < gr.bottom - 10;
+      if(nearRibbon){
+        dragging = false;
+        openGift();
+      }
+    });
+    function stopDrag(){ dragging = false; }
+    scissors.addEventListener("pointerup", stopDrag);
+    scissors.addEventListener("pointercancel", stopDrag);
+    scissors.addEventListener("keydown", e => {
+      if((e.key === "Enter" || e.key === " ") && !opened){
+        e.preventDefault(); openGift();
+      }
+    });
+    document.getElementById("telegramLink").addEventListener("click", e => {
+      if(TELEGRAM_BOT.includes("SEU_BOT")){
+        e.preventDefault();
+        alert("Configure o link do seu bot no arquivo index.html antes de publicar.");
+      }
+    });
+  </script>
 </body>
 </html>
